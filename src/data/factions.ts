@@ -7,6 +7,7 @@ export interface Faction {
   blurb: string;
   count: string;
   countLabel: string;
+  badge?: string;
 }
 
 export const factions: Faction[] = [
@@ -29,6 +30,7 @@ export const factions: Faction[] = [
     blurb: 'Servicio médico, rangos, embarazo IC y protocolo de presunto CK.',
     count: '13',
     countLabel: 'artículos',
+    badge: '/img/badge-ems.webp',
   },
   {
     slug: 'policia',
@@ -39,6 +41,7 @@ export const factions: Faction[] = [
     blurb: 'Jerarquía, códigos radiales, Miranda y código penal.',
     count: '9',
     countLabel: 'artículos',
+    badge: '/img/badge-policia.webp',
   },
   {
     slug: 'ilegales',
@@ -49,6 +52,7 @@ export const factions: Faction[] = [
     blurb: 'Robos, bandas, negociación de atracos y conflicto territorial.',
     count: '12',
     countLabel: 'artículos',
+    badge: '/img/badge-ilegales.webp',
   },
   {
     slug: 'locales',
@@ -59,6 +63,7 @@ export const factions: Faction[] = [
     blurb: 'Propiedad de negocios, empleados, eventos y convenios.',
     count: '4',
     countLabel: 'páginas',
+    badge: '/img/badge-locales.webp',
   },
   {
     slug: 'talleres',
@@ -69,6 +74,7 @@ export const factions: Faction[] = [
     blurb: 'Tuneo, tarifas, personal y límites de capital.',
     count: '3',
     countLabel: 'reglas',
+    badge: '/img/badge-talleres.webp',
   },
   {
     slug: 'crews',
@@ -89,6 +95,7 @@ export const factions: Faction[] = [
     blurb: 'Constitución judicial: derechos, procedimiento y apelaciones.',
     count: '21',
     countLabel: 'artículos',
+    badge: '/img/badge-abogados.webp',
   },
 ];
 
