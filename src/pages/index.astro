@@ -1,0 +1,85 @@
+---
+import Layout from '../layouts/Layout.astro';
+import { factions } from '../data/factions';
+---
+
+<Layout title="Código Normativo — Animals City" description="Normativa completa de Animals City RP organizada por facción, con guía rápida por rol (civil, banda, policía, EMS).">
+  <div class="hero-cover">
+    <div class="hero-crest">
+      <svg width="64" height="64" viewBox="0 0 40 40" fill="none">
+        <path d="M20 2 L36 8 V19 C36 29 29 35.5 20 38 C11 35.5 4 29 4 19 V8 Z" fill="var(--paper-sunken)" stroke="var(--accent)" stroke-width="1.4"></path>
+        <path d="M20 6 L32 10.5 V19 C32 27 26.5 32 20 34.2 C13.5 32 8 27 8 19 V10.5 Z" fill="none" stroke="var(--accent)" stroke-width="0.8" opacity="0.6"></path>
+        <text x="20" y="24" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="11" font-weight="700" fill="var(--accent)">AC</text>
+      </svg>
+      <div class="brand-sub">Los Santos · Servidor de Roleplay</div>
+    </div>
+    <h1>Código Normativo<br /><span class="hero-italic">de Animals City</span></h1>
+    <p class="hero-lede">Ocho expedientes reúnen la normativa vigente del servidor: comportamiento general, sanidad, orden público, actividad ilegal, comercio, mecánica, competición y régimen judicial. Elegí una carpeta para leer sus artículos.</p>
+
+    <div class="subgroup-title" style="margin-top:4px;">¿Qué rol jugás? — lo esencial de cada uno</div>
+    <div class="role-guide">
+      <div class="role-card" style="--role-color:var(--ink-dim)">
+        <div class="role-head"><span class="chip" style="background:var(--b-general)">GN</span><h4>Todos — base común</h4></div>
+        <ul>
+          <li>Coherencia IC siempre; prohibido Metagaming, Power Gaming y StreamSniping.</li>
+          <li>3 WARNs = baneo permanente.</li>
+          <li>Zonas seguras (hospital, comisaría, aeropuerto, ayuntamiento, incautados, garaje central) son intocables para todo acto ilícito.</li>
+        </ul>
+        <a class="role-link" href="/general/">Ver expediente General →</a>
+      </div>
+
+      <div class="role-card" style="--role-color:var(--ink-faint)">
+        <div class="role-head"><span class="chip" style="background:var(--ink-faint)">CV</span><h4>Civil</h4></div>
+        <ul>
+          <li>Puede robar en pequeño (badulaque, ATM, vandalismo, tatuajes…) en grupos de hasta 3 personas.</li>
+          <li>No puede robar comida, móviles ni documentos, ni tocar civiles en la calle sin rol previo o secuestro express.</li>
+          <li>Como rehén: máximo 10 minutos de rol; nunca se lo interpreta con <span class="mono">/do</span>.</li>
+        </ul>
+        <a class="role-link" href="/ilegales/">Ver expediente Ilegales →</a>
+      </div>
+
+      <div class="role-card" style="--role-color:var(--b-ilegales)">
+        <div class="role-head"><span class="chip" style="background:var(--b-ilegales)">IL</span><h4>Banda / Ilegal</h4></div>
+        <ul>
+          <li>Alta con jefe mayor de 18 años; 5–10 integrantes; grabación obligatoria de todo conflicto con otra facción.</li>
+          <li>Atracos exigen aviso previo (15 s de espera) y mínimos de policías, atracadores y rehenes según objetivo.</li>
+          <li>Colores o bandana obligatorios en acto delictivo; PKT es la única salida de la banda.</li>
+        </ul>
+        <a class="role-link" href="/ilegales/">Ver expediente Ilegales →</a>
+      </div>
+
+      <div class="role-card" style="--role-color:var(--b-policia)">
+        <div class="role-head"><span class="chip" style="background:var(--b-policia)">PD</span><h4>Policía</h4></div>
+        <ul>
+          <li>Identificación por placa, no por nombre; Miranda obligatorio antes de comisaría.</li>
+          <li>Fuerza letal solo con Clave Robert; multas y delitos regidos por el código penal (leve / medio-grave / federal).</li>
+          <li>Mínimos de efectivos por tipo de atraco antes de negociar (badulaque 4, banco central 14).</li>
+        </ul>
+        <a class="role-link" href="/policia/">Ver expediente Policía →</a>
+      </div>
+
+      <div class="role-card" style="--role-color:var(--b-ems)">
+        <div class="role-head"><span class="chip" style="background:var(--b-ems)">EMS</span><h4>Sanidad</h4></div>
+        <ul>
+          <li>Neutralidad absoluta entre facciones; confidencialidad del paciente salvo causa legal.</li>
+          <li>Mínimo 12 h semanales; obligatorio <span class="mono">/me</span> y <span class="mono">/do</span> en todo rol médico.</li>
+          <li>Presunto CK: 3 intentos de <span class="mono">/do</span> sin respuesta activan el protocolo con administración.</li>
+        </ul>
+        <a class="role-link" href="/ems/">Ver expediente Sanidad →</a>
+      </div>
+    </div>
+
+    <div class="subgroup-title">Los ocho expedientes</div>
+    <div class="cover-grid">
+      {factions.map((f) => (
+        <a class="cover-card" href={`/${f.slug}/`}>
+          <span class="chip" style={`background:var(${f.colorVar})`}>{f.code}</span>
+          <h4>{f.title}</h4>
+          <p>{f.blurb}</p>
+        </a>
+      ))}
+    </div>
+
+    <div class="cover-note">Este sitio reorganiza y resume el contenido publicado por Animals City RP para su consulta rápida — no sustituye la fuente oficial ante dudas de interpretación.</div>
+  </div>
+</Layout>
