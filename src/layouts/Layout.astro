@@ -30,13 +30,30 @@ const currentPath = Astro.url.pathname.replace(/\/$/, '') || '/';
         </div>
       </a>
 
-      <nav class="main-nav" id="nav">
-        <a href="/" aria-current={currentPath === '/' ? 'page' : undefined}>Portada</a>
-        {factions.map((f) => (
-          <a href={`/${f.slug}/`} aria-current={currentPath === `/${f.slug}` ? 'page' : undefined} style={`--dot:var(${f.colorVar})`}>
-            <span class="dot"></span>{f.title}
-          </a>
-        ))}
+      <nav class="main-nav">
+        <a class="nav-link" href="/" aria-current={currentPath === '/' ? 'page' : undefined}>Portada</a>
+
+        <details class="nav-dropdown" id="expedientes-dd">
+          <summary>
+            Expedientes
+            <svg class="chevron" width="10" height="6" viewBox="0 0 10 6" fill="none"><path d="M1 1L5 5L9 1" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </summary>
+          <div class="dropdown-panel">
+            {factions.map((f) => (
+              <a class="dropdown-item" href={`/${f.slug}/`} aria-current={currentPath === `/${f.slug}` ? 'page' : undefined}>
+                {f.badge ? (
+                  <span class="dd-badge"><img src={f.badge} alt="" width="56" height="56" loading="lazy" /></span>
+                ) : (
+                  <span class="dd-chip" style={`background:var(${f.colorVar})`}>{f.code}</span>
+                )}
+                <span class="dd-text">
+                  <strong>{f.title}</strong>
+                  <small>{f.blurb}</small>
+                </span>
+              </a>
+            ))}
+          </div>
+        </details>
       </nav>
 
       <div class="search-box">
@@ -49,8 +66,23 @@ const currentPath = Astro.url.pathname.replace(/\/$/, '') || '/';
     </main>
 
     <footer class="site-footer">
-      <span>USO EXCLUSIVO ANIMALS CITY RP<br />© 2025 · TODOS LOS DERECHOS RESERVADOS</span>
-      <span>Contenido reorganizado a partir de la <a href="https://sites.google.com/view/normativaanimalscity/inicio/" target="_blank" rel="noopener">normativa oficial</a></span>
+      <div class="footer-brand">
+        <img src="/img/logo.webp" width="32" height="32" alt="" />
+        <div>
+          <strong>Animals City</strong>
+          <span>Código Normativo · Ed. 2025</span>
+        </div>
+      </div>
+
+      <nav class="footer-nav">
+        <a href="/">Portada</a>
+        {factions.map((f) => <a href={`/${f.slug}/`}>{f.title}</a>)}
+      </nav>
+
+      <div class="footer-legal">
+        <span>USO EXCLUSIVO ANIMALS CITY RP · © 2025 TODOS LOS DERECHOS RESERVADOS</span>
+        <span>Contenido reorganizado a partir de la <a href="https://sites.google.com/view/normativaanimalscity/inicio/" target="_blank" rel="noopener">normativa oficial</a></span>
+      </div>
     </footer>
 
     <script>
@@ -94,6 +126,20 @@ const currentPath = Astro.url.pathname.replace(/\/$/, '') || '/';
           clearTimeout(debounceId);
           const q = searchInput.value.trim();
           debounceId = setTimeout(() => runSearch(q), 150);
+        });
+      }
+
+      const dropdown = document.getElementById('expedientes-dd') as HTMLDetailsElement | null;
+      if (dropdown) {
+        document.addEventListener('click', (e) => {
+          if (dropdown.open && !dropdown.contains(e.target as Node)) {
+            dropdown.open = false;
+          }
+        });
+        document.addEventListener('keydown', (e) => {
+          if (e.key === 'Escape' && dropdown.open) {
+            dropdown.open = false;
+          }
         });
       }
     </script>
