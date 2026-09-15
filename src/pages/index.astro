@@ -22,7 +22,7 @@ import { factions } from '../data/factions';
   <div class="subgroup-title centered">¿Qué rol jugás? Lo esencial de cada uno</div>
   <div class="role-guide">
     <div class="role-card" style="--role-color:var(--ink-faint)">
-      <div class="role-head"><span class="chip" style="background:var(--ink-faint)">GN</span><h4>Todos: base común</h4></div>
+      <div class="role-head"><span class="chip" style="--chip-color:var(--ink-faint)">GN</span><h4>Todos: base común</h4></div>
       <ul>
         <li>Coherencia IC siempre; prohibido Metagaming, Power Gaming y StreamSniping.</li>
         <li>3 WARNs = baneo permanente.</li>
@@ -32,7 +32,7 @@ import { factions } from '../data/factions';
     </div>
 
     <div class="role-card" style="--role-color:var(--gold)">
-      <div class="role-head"><span class="chip" style="background:var(--gold)">CV</span><h4>Civil</h4></div>
+      <div class="role-head"><span class="chip" style="--chip-color:var(--gold)">CV</span><h4>Civil</h4></div>
       <ul>
         <li>Puede robar en pequeño (badulaque, ATM, vandalismo, tatuajes…) en grupos de hasta 3 personas.</li>
         <li>No puede robar comida, móviles ni documentos, ni tocar civiles en la calle sin rol previo o secuestro express.</li>
@@ -42,7 +42,7 @@ import { factions } from '../data/factions';
     </div>
 
     <div class="role-card" style="--role-color:var(--b-ilegales)">
-      <div class="role-head"><span class="chip" style="background:var(--b-ilegales)">IL</span><h4>Banda / Ilegal</h4></div>
+      <div class="role-head"><span class="chip" style="--chip-color:var(--b-ilegales)">IL</span><h4>Banda / Ilegal</h4></div>
       <ul>
         <li>Alta con jefe mayor de 18 años; 5-10 integrantes; grabación obligatoria de todo conflicto con otra facción.</li>
         <li>Atracos exigen aviso previo (15 s de espera) y mínimos de policías, atracadores y rehenes según objetivo.</li>
@@ -52,7 +52,7 @@ import { factions } from '../data/factions';
     </div>
 
     <div class="role-card" style="--role-color:var(--b-policia)">
-      <div class="role-head"><span class="chip" style="background:var(--b-policia)">PD</span><h4>Policía</h4></div>
+      <div class="role-head"><span class="chip" style="--chip-color:var(--b-policia)">PD</span><h4>Policía</h4></div>
       <ul>
         <li>Identificación por placa, no por nombre; Miranda obligatorio antes de comisaría.</li>
         <li>Fuerza letal solo con Clave Robert; multas y delitos regidos por el código penal (leve / medio-grave / federal).</li>
@@ -62,7 +62,7 @@ import { factions } from '../data/factions';
     </div>
 
     <div class="role-card" style="--role-color:var(--b-ems)">
-      <div class="role-head"><span class="chip" style="background:var(--b-ems)">EMS</span><h4>Sanidad</h4></div>
+      <div class="role-head"><span class="chip" style="--chip-color:var(--b-ems)">EMS</span><h4>Sanidad</h4></div>
       <ul>
         <li>Neutralidad absoluta entre facciones; confidencialidad del paciente salvo causa legal.</li>
         <li>Mínimo 12 h semanales; obligatorio <span class="mono">/me</span> y <span class="mono">/do</span> en todo rol médico.</li>
@@ -81,7 +81,7 @@ import { factions } from '../data/factions';
         {f.badge ? (
           <span class="cover-badge"><img src={f.badge} alt="" width="88" height="88" loading="lazy" /></span>
         ) : (
-          <span class="chip" style={`background:var(${f.colorVar})`}>{f.code}</span>
+          <span class="chip" style={`--chip-color:var(${f.colorVar})`}>{f.code}</span>
         )}
         <span class="cover-body">
           <h4>{f.title}</h4>
