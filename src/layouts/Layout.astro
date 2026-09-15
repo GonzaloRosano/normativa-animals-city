@@ -38,8 +38,9 @@ const ogImageURL = new URL('/img/banner.webp', Astro.site);
     <a class="skip-link" href="#main">Saltar al contenido</a>
 
     <header class="site-header">
+     <div class="header-inner">
       <a class="brand-link" href="/">
-        <img src="/img/logo.webp" width="40" height="40" alt="Escudo de Animals City" />
+        <img src="/img/logo.webp" width="48" height="48" alt="Escudo de Animals City" />
         <div class="brand-text">
           <strong>Animals City</strong>
           <span>Código Normativo</span>
@@ -47,8 +48,6 @@ const ogImageURL = new URL('/img/banner.webp', Astro.site);
       </a>
 
       <nav class="main-nav">
-        <a class="nav-link" href="/" aria-current={currentPath === '/' ? 'page' : undefined}>Portada</a>
-
         <details class="nav-dropdown" id="expedientes-dd">
           <summary>
             Expedientes
@@ -75,6 +74,7 @@ const ogImageURL = new URL('/img/banner.webp', Astro.site);
       <div class="search-box">
         <input id="search" type="search" placeholder="Buscar en esta página…" autocomplete="off" />
       </div>
+     </div>
     </header>
 
     <main id="main">
