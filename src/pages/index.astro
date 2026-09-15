@@ -4,6 +4,7 @@ import { factions } from '../data/factions';
 ---
 
 <Layout title="Código Normativo · Animals City" description="Normativa completa de Animals City RP organizada por facción, con guía rápida por rol (civil, banda, policía, EMS).">
+  <section class="home-screen home-screen-hero">
   <div class="home-hero">
     <div class="home-hero-media">
       <h1 class="wordmark-h1"><img class="wordmark" src="/img/wordmark.webp" alt="Código Normativo de Animals City" width="745" height="374" /></h1>
@@ -13,7 +14,9 @@ import { factions } from '../data/factions';
       <p class="hero-lede">Ocho expedientes reúnen la normativa vigente del servidor: comportamiento general, sanidad, orden público, actividad ilegal, comercio, mecánica, competición y régimen judicial. Elegí una carpeta para leer sus artículos.</p>
     </div>
   </div>
+  </section>
 
+  <section class="home-screen">
   <div class="subgroup-title centered">¿Qué rol jugás? Lo esencial de cada uno</div>
   <div class="role-guide">
     <div class="role-card" style="--role-color:var(--ink-faint)">
@@ -66,8 +69,10 @@ import { factions } from '../data/factions';
       <a class="role-link" href="/ems/">Ver expediente Sanidad →</a>
     </div>
   </div>
+  </section>
 
-  <div class="subgroup-title centered" style="margin-top:48px;">Los ocho expedientes</div>
+  <section class="home-screen">
+  <div class="subgroup-title centered">Los ocho expedientes</div>
   <div class="cover-grid">
     {factions.map((f) => (
       <a class="cover-card" href={`/${f.slug}/`}>
@@ -85,4 +90,5 @@ import { factions } from '../data/factions';
   </div>
 
   <div class="cover-note">Este sitio reorganiza y resume el contenido publicado por Animals City RP para su consulta rápida. No sustituye la fuente oficial ante dudas de interpretación. Escudos y logo son los oficiales del servidor.</div>
+  </section>
 </Layout>

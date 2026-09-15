@@ -13,22 +13,22 @@
   --ink: #f2eefc;
   --ink-dim: #b6aede;
   --ink-faint: #7d76a8;
-  --accent: #ff3f9e;
-  --accent-2: #33e0ff;
-  --gold: #ffb648;
-  --violet: #7b3ff2;
+  --accent: #e14894;
+  --accent-2: #41bcd2;
+  --gold: #e3aa54;
+  --violet: #8a62d9;
   --line: rgba(196, 178, 255, 0.16);
   --line-strong: rgba(196, 178, 255, 0.3);
   --glow: 0 0 0 1px rgba(196, 178, 255, 0.08), 0 8px 30px rgba(123, 63, 242, 0.16);
 
   --b-general: #d8d4ec;
-  --b-ems: #ff5d6c;
-  --b-policia: #33e0ff;
-  --b-ilegales: #ff5d3a;
-  --b-locales: #ffb648;
-  --b-talleres: #9fe870;
-  --b-crews: #ff9f3f;
-  --b-abogados: #b98cff;
+  --b-ems: #e36a75;
+  --b-policia: #47c5dc;
+  --b-ilegales: #dd664d;
+  --b-locales: #dfa958;
+  --b-talleres: #9bd178;
+  --b-crews: #de9751;
+  --b-abogados: #b492ea;
 }
 
 *, *::before, *::after { box-sizing: border-box; }
@@ -404,17 +404,29 @@ article.clause:last-child { border-bottom: none; }
   margin-bottom: 10px;
 }
 .severity::before { content: ''; width: 6px; height: 6px; border-radius: 50%; }
-.sev-leve { color: #4ade80; border: 1px solid #4ade80; }
-.sev-leve::before { background: #4ade80; }
+.sev-leve { color: #56c27e; border: 1px solid #56c27e; }
+.sev-leve::before { background: #56c27e; }
 .sev-moderada { color: var(--gold); border: 1px solid var(--gold); }
 .sev-moderada::before { background: var(--gold); }
-.sev-grave { color: #ff5d6c; border: 1px solid #ff5d6c; }
-.sev-grave::before { background: #ff5d6c; }
+.sev-grave { color: var(--b-ems); border: 1px solid var(--b-ems); }
+.sev-grave::before { background: var(--b-ems); }
 
 .hidden-by-search { display: none !important; }
 mark { background: var(--accent); color: #17071c; padding: 0 2px; border-radius: 2px; }
 
-/* ---------- Home hero ---------- */
+/* ---------- Home: one screen per section on desktop ---------- */
+.home-screen {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+.home-screen-hero { display: flex; }
+.home-screen-hero .home-hero { flex: 1; margin-bottom: 0; }
+.home-screen:not(:first-child) { border-top: 1px solid var(--line); padding-top: 8px; }
+@media (min-width: 900px) {
+  .home-screen { min-height: calc(100dvh - 70px); }
+}
+
 .home-hero {
   position: relative;
   margin: 0 calc(-1 * clamp(16px, 4vw, 40px)) 40px;
