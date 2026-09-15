@@ -3,7 +3,7 @@
 /*
   Animals City runs one deliberate look: a Miami-night synthwave palette
   lifted straight from the real server crest (magenta/cyan/violet skyline).
-  It stays dark regardless of system theme — the brand doesn't have a
+  It stays dark regardless of system theme: the brand doesn't have a
   "light mode", the way the logo doesn't either.
 */
 :root {
@@ -277,8 +277,8 @@ main { max-width: 900px; margin: 0 auto; padding: 0 clamp(16px, 4vw, 40px) 100px
   margin: 0 calc(-1 * clamp(16px, 4vw, 40px)) 32px;
   padding: 40px clamp(16px, 4vw, 40px) 32px;
   background:
-    radial-gradient(600px 260px at 12% 0%, rgba(255, 63, 158, 0.22), transparent 70%),
-    radial-gradient(500px 240px at 100% 100%, rgba(51, 224, 255, 0.16), transparent 65%),
+    radial-gradient(700px 320px at 50% 130%, rgba(255, 63, 158, 0.3), transparent 68%),
+    linear-gradient(to bottom, rgba(51, 224, 255, 0.1), transparent 45%),
     var(--bg-sunken);
   border-bottom: 1px solid var(--line);
   overflow: hidden;
@@ -320,7 +320,7 @@ main { max-width: 900px; margin: 0 auto; padding: 0 clamp(16px, 4vw, 40px) 100px
   text-transform: uppercase;
   color: var(--ink-faint);
 }
-.hero-band h2 { font-size: clamp(1.7rem, 3.4vw, 2.4rem); font-weight: 700; margin-top: 4px; }
+.hero-band h1 { font-size: clamp(1.7rem, 3.4vw, 2.4rem); font-weight: 700; margin-top: 4px; }
 .doc-meta {
   font-family: 'JetBrains Mono', monospace;
   font-size: 0.72rem;
@@ -344,7 +344,7 @@ article.clause:last-child { border-bottom: none; }
   font-weight: 600;
   flex: none;
 }
-.clause h3 { font-size: 1.14rem; font-weight: 700; max-width: 60ch; }
+.clause h2 { font-size: 1.14rem; font-weight: 700; max-width: 60ch; }
 .clause p, .clause li { max-width: 66ch; color: var(--ink-dim); }
 .clause ul { margin: 10px 0 0; padding-left: 1.2em; display: flex; flex-direction: column; gap: 6px; }
 .clause ul li::marker { color: var(--accent); font-size: 0.85em; }
@@ -436,8 +436,8 @@ mark { background: var(--accent); color: #17071c; padding: 0 2px; border-radius:
   margin: 0 calc(-1 * clamp(16px, 4vw, 40px)) 40px;
   padding: 56px clamp(16px, 4vw, 40px) 48px;
   background:
-    radial-gradient(900px 480px at 30% 35%, rgba(255, 63, 158, 0.22), transparent 72%),
-    radial-gradient(700px 420px at 100% 100%, rgba(51, 224, 255, 0.14), transparent 70%),
+    radial-gradient(900px 420px at 50% 140%, rgba(255, 63, 158, 0.32), transparent 68%),
+    linear-gradient(to bottom, rgba(51, 224, 255, 0.12), transparent 45%),
     var(--bg-sunken);
   border-bottom: 1px solid var(--line);
   display: grid;
@@ -446,6 +446,7 @@ mark { background: var(--accent); color: #17071c; padding: 0 2px; border-radius:
   gap: clamp(24px, 5vw, 56px);
 }
 .home-hero-media { display: flex; justify-content: center; }
+.wordmark-h1 { margin: 0; line-height: 0; }
 .home-hero img.wordmark {
   display: block;
   width: 100%;
