@@ -9,6 +9,8 @@ interface Props {
 
 const { title, description } = Astro.props;
 const currentPath = Astro.url.pathname.replace(/\/$/, '') || '/';
+const canonicalURL = new URL(Astro.url.pathname, Astro.site);
+const ogImageURL = new URL('/img/banner.webp', Astro.site);
 ---
 
 <html lang="es">
@@ -18,9 +20,23 @@ const currentPath = Astro.url.pathname.replace(/\/$/, '') || '/';
     <meta name="description" content={description} />
     <meta name="generator" content={Astro.generator} />
     <link rel="icon" href="/favicon.png" type="image/png" />
+    <link rel="canonical" href={canonicalURL} />
     <title>{title}</title>
+
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="Animals City" />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonicalURL} />
+    <meta property="og:image" content={ogImageURL} />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={ogImageURL} />
   </head>
   <body>
+    <a class="skip-link" href="#main">Saltar al contenido</a>
+
     <header class="site-header">
       <a class="brand-link" href="/">
         <img src="/img/logo.webp" width="40" height="40" alt="Escudo de Animals City" />
@@ -61,7 +77,7 @@ const currentPath = Astro.url.pathname.replace(/\/$/, '') || '/';
       </div>
     </header>
 
-    <main>
+    <main id="main">
       <slot />
     </main>
 
