@@ -72,7 +72,8 @@ const ogImageURL = new URL('/img/banner.webp', Astro.site);
       </nav>
 
       <div class="search-box">
-        <input id="search" type="search" placeholder="Buscar en esta página…" autocomplete="off" />
+        <input id="search" type="search" placeholder="Buscar en toda la normativa…" autocomplete="off" role="combobox" aria-expanded="false" aria-controls="search-results" aria-autocomplete="list" />
+        <div class="search-results" id="search-results" hidden></div>
       </div>
      </div>
     </header>
@@ -102,46 +103,142 @@ const ogImageURL = new URL('/img/banner.webp', Astro.site);
     </footer>
 
     <script>
-      const searchInput = document.getElementById('search') as HTMLInputElement | null;
-      if (searchInput) {
-        let debounceId: ReturnType<typeof setTimeout>;
+      interface ClauseEntry {
+        slug: string;
+        pageTitle: string;
+        code: string;
+        colorVar: string;
+        id: string;
+        clauseNum: string;
+        title: string;
+        text: string;
+      }
 
-        function clearSearch() {
-          document.querySelectorAll('.clause').forEach((c) => {
-            c.classList.remove('hidden-by-search');
-            c.querySelectorAll('mark').forEach((m) => {
-              const parent = m.parentNode;
-              if (!parent) return;
-              parent.replaceChild(document.createTextNode(m.textContent || ''), m);
-              parent.normalize();
-            });
-          });
+      const searchInput = document.getElementById('search') as HTMLInputElement | null;
+      const resultsBox = document.getElementById('search-results') as HTMLDivElement | null;
+
+      if (searchInput && resultsBox) {
+        let indexData: ClauseEntry[] | null = null;
+        let indexPromise: Promise<ClauseEntry[]> | null = null;
+        let debounceId: ReturnType<typeof setTimeout>;
+        let activeIndex = -1;
+
+        function loadIndex(): Promise<ClauseEntry[]> {
+          if (indexPromise) return indexPromise;
+          indexPromise = fetch('/search-index.json')
+            .then((r) => r.json())
+            .then((data: ClauseEntry[]) => {
+              indexData = data;
+              return data;
+            })
+            .catch(() => []);
+          return indexPromise;
+        }
+
+        function escapeHtml(s: string): string {
+          return s.replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c] as string));
+        }
+
+        function snippetAround(text: string, needle: string, radius = 60): string {
+          const idx = text.toLowerCase().indexOf(needle);
+          if (idx === -1) return text.slice(0, radius * 2);
+          const start = Math.max(0, idx - radius);
+          const end = Math.min(text.length, idx + needle.length + radius);
+          let s = text.slice(start, end);
+          if (start > 0) s = '…' + s;
+          if (end < text.length) s += '…';
+          return s;
+        }
+
+        function highlight(text: string, needle: string): string {
+          const escaped = escapeHtml(text);
+          const re = new RegExp('(' + needle.replace(/[.*+?^${}()|[\]\\]/g, '\\$&') + ')', 'ig');
+          return escaped.replace(re, '<mark>$1</mark>');
+        }
+
+        function closeResults() {
+          resultsBox!.hidden = true;
+          resultsBox!.innerHTML = '';
+          searchInput!.setAttribute('aria-expanded', 'false');
+          activeIndex = -1;
+        }
+
+        function renderResults(matches: ClauseEntry[], q: string) {
+          if (matches.length === 0) {
+            resultsBox!.innerHTML = '<div class="search-empty">Sin resultados para "' + escapeHtml(q) + '".</div>';
+            resultsBox!.hidden = false;
+            searchInput!.setAttribute('aria-expanded', 'true');
+            return;
+          }
+          resultsBox!.innerHTML = matches
+            .map((m, i) => {
+              const snippet = highlight(snippetAround(m.text, q), q);
+              return (
+                '<a class="search-result" href="/' + m.slug + '/#' + m.id + '" data-index="' + i + '">' +
+                '<span class="sr-chip" style="background:var(' + m.colorVar + ')">' + escapeHtml(m.code) + '</span>' +
+                '<span class="sr-body">' +
+                '<span class="sr-head"><strong>' + escapeHtml(m.title) + '</strong><small>' + escapeHtml(m.pageTitle) + ' · ' + escapeHtml(m.clauseNum) + '</small></span>' +
+                '<span class="sr-snippet">' + snippet + '</span>' +
+                '</span>' +
+                '</a>'
+              );
+            })
+            .join('');
+          resultsBox!.hidden = false;
+          searchInput!.setAttribute('aria-expanded', 'true');
         }
 
         function runSearch(q: string) {
-          clearSearch();
-          if (!q) return;
-          const needle = q.toLowerCase();
-          const re = new RegExp('(' + q.replace(/[.*+?^${}()|[\]\\]/g, '\\$&') + ')', 'ig');
-
-          document.querySelectorAll('.clause').forEach((clause) => {
-            const text = (clause.textContent || '').toLowerCase();
-            if (text.indexOf(needle) === -1) {
-              clause.classList.add('hidden-by-search');
-            } else {
-              clause.querySelectorAll('h3, p, li, blockquote').forEach((node) => {
-                if (node.children.length === 0 || node.tagName === 'LI') {
-                  node.innerHTML = (node.textContent || '').replace(re, '<mark>$1</mark>');
-                }
-              });
-            }
+          if (!q) {
+            closeResults();
+            return;
+          }
+          loadIndex().then((data) => {
+            const needle = q.toLowerCase();
+            const scored = data
+              .map((entry) => {
+                const titleHit = entry.title.toLowerCase().includes(needle);
+                const textHit = entry.text.toLowerCase().includes(needle);
+                if (!titleHit && !textHit) return null;
+                return { entry, score: titleHit ? 2 : 1 };
+              })
+              .filter((x): x is { entry: ClauseEntry; score: number } => x !== null)
+              .sort((a, b) => b.score - a.score)
+              .slice(0, 8)
+              .map((x) => x.entry);
+            renderResults(scored, q);
           });
         }
 
         searchInput.addEventListener('input', () => {
           clearTimeout(debounceId);
-          const q = searchInput.value.trim();
+          const q = searchInput!.value.trim();
           debounceId = setTimeout(() => runSearch(q), 150);
+        });
+
+        searchInput.addEventListener('focus', () => {
+          if (searchInput!.value.trim()) runSearch(searchInput!.value.trim());
+        });
+
+        searchInput.addEventListener('keydown', (e) => {
+          const items = Array.from(resultsBox!.querySelectorAll('.search-result')) as HTMLAnchorElement[];
+          if (e.key === 'Escape') {
+            closeResults();
+          } else if (e.key === 'ArrowDown' && items.length) {
+            e.preventDefault();
+            activeIndex = Math.min(activeIndex + 1, items.length - 1);
+            items[activeIndex].focus();
+          } else if (e.key === 'ArrowUp' && items.length) {
+            e.preventDefault();
+            activeIndex = Math.max(activeIndex - 1, 0);
+            items[activeIndex].focus();
+          }
+        });
+
+        document.addEventListener('click', (e) => {
+          if (!resultsBox!.hidden && !resultsBox!.contains(e.target as Node) && e.target !== searchInput) {
+            closeResults();
+          }
         });
       }
 
